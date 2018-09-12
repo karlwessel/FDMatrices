@@ -23,11 +23,12 @@ export laplaceperiodic, laplacedirichlet, ⊕, KronSum,
     solveimplicitdiffusiondirichlet4th1D,
     solvepoissonperiodic2nd2D,
     solvepoissonperiodic4th2D,
-    FSTI, iFSTI, DSTIMatrix, InvDSTIMatrix,
+    FSTI, iFSTI, DCTI, DSTIMatrix, InvDSTIMatrix,
     PureDirichletMatrix,
     poisson1dtest, poisson1derror,
     poisson2dperiodictest,
-    poisson1dperiodictest
+    poisson1dperiodictest,
+    diff3dtest
 
 
 

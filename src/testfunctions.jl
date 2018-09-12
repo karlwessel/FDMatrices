@@ -79,3 +79,14 @@ function evalpoisson1derror(fn, count=10)
     end
     dxs,meanerr,maxerr
 end
+
+
+function gendiff3dtest(x,y,z,t)
+    sin(2π*x)*cos(2π*y)*cos(2π*z)*exp(-12*π^2*t)
+end
+
+function diff3dtest(N,M,L, t)
+    [gendiff3dtest(x/N,y/M,z/L,t) for x in 0:N-1, y in 0:M-1, z in 0:L-1]
+end
+diff3dtest(N) = diff3dtest(N,N,N, 0)
+diff3dtest(N, t) = diff3dtest(N,N,N, t)
