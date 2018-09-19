@@ -46,7 +46,7 @@ end
 -(A::PeriodicMatrix) = PeriodicMatrix(-A.row)
 
 function +(A::UniformScaling, B::PeriodicMatrix)
-    tmp = B.row
+    tmp = copy(B.row)
     tmp[1] += A.λ
     PeriodicMatrix(tmp)
 end
