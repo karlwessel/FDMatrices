@@ -9,6 +9,18 @@ function getm(v::KronSum)
     Matrix(Matrix(I, size(v.B))⊗v.A + v.B⊗Matrix(I, size(v.A)))
 end
 
+function getindex(K::KronSum, x::Int,y::Int)
+    if debug(K)
+        throw(ErrorException("unexp convert"))
+    end
+    #println("bla")
+    i1, i2 = divrem(x-1, size(K.A,1))
+    j1, j2 = divrem(y-1, size(K.A,2))
+    a = i1==j1 ? K.A[i2+1,j2+1] : 0
+
+    b = i2==j2 ? K.B[i1+1,j1+1] : 0
+    a+b
+end
 
 function *(A::KronSum, b::AbstractVector)
     N, M = size(A.A)

@@ -11,6 +11,15 @@ end
 
 lazykron = LazyKron
 
+function getindex(K::LazyKron, x::Int,y::Int)
+    if debug(K)
+        throw(ErrorException("unexp convert"))
+    end
+    i1, i2 = divrem(x-1, size(K.A,1))
+    j1, j2 = divrem(y-1, size(K.A,2))
+    K.A[i1+1,j1+1]*K.B[i2+1,j2+1]
+end
+
 getm(K::LazyKron) = kron(K.A, K.B)
 
 size(K::LazyKron) = size(K.A).*size(K.B)

@@ -59,6 +59,14 @@ function getm(A::PeriodicMatrix)
     Matrix([A.row[mod(k-i, N)+1] for i∈0:N-1, k∈0:N-1])
 end
 
+function getindex(A::PeriodicMatrix, i::Int,k::Int)
+    if debug(A)
+        throw(ErrorException("unexp convert"))
+    end
+    N = length(A.row)
+    A.row[mod(k-i, N)+1]
+end
+
 convert(::Type{Matrix}, A::PeriodicMatrix) = Matrix(A)
 
 size(A::PeriodicMatrix) = (length(A.row), length(A.row))
