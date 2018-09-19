@@ -14,6 +14,16 @@ f = reshape(F, 6)
 @test A₁*F + F*A₂ ≈ reshape(A*f, size(F))
 Am = getm(A)
 
+n = rand()
+@test A*n == Am*n
+@test n*A == n*Am
+@test A/n == Am/n
+@test A+I == Am+I
+@test I+A == I+Am
+@test A-I == Am-I
+@test I-A == I-Am
+@test I-n*A == I-n*Am
+
 @test typeof(A*f)<:AbstractVector
 @test A*f ≈ Am*f
 @test pinv(A) ≈ pinv(Am)

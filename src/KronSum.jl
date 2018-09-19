@@ -33,6 +33,16 @@ function *(A::KronSum, b::AbstractVector)
     end
 end
 
+*(A::KronSum, b::Number) = KronSum(A.A*b, A.B*b)
+*(b::Number, A::KronSum) = KronSum(b*A.A, b*A.B)
+/(A::KronSum, b::Number) = A*inv(b)
+
++(A::KronSum, B::UniformScaling) = KronSum(A.A+B, A.B)
++(A::UniformScaling, B::KronSum) = B+A
+-(A::KronSum, B::UniformScaling) = A+(-B)
+-(A::UniformScaling, B::KronSum) = A+(-B)
+-(A::KronSum) = KronSum(-A.A, -A.B)
+
 pinv(A::KronSum) = pinv(eigen(A))
 
 \(A::KronSum, B::AbstractVector) = solve(A, B)
