@@ -14,8 +14,12 @@ v = rand(3)
 @test A * v ≈ Am * v
 @test getm(-A) ≈ -Am
 @test getm(A*5) ≈ Am*5
+@test getm(5*A) ≈ 5*Am
 @test getm(A/5) ≈ Am/5
 @test getm(2I - A) ≈ 2I - Am
+@test getm(A - 2I) ≈ Am - 2I
+@test getm(2I + A) ≈ 2I + Am
+@test getm(A + 2I) ≈ Am + 2I
 @test getm(transpose(A)) ≈ transpose(Am)
 # A does not have full rank but for x with A(A\v)...
 x = A\v

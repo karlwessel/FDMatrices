@@ -24,6 +24,7 @@ function *(A::PeriodicMatrix, B::AbstractMatrix)
 end
 
 *(A::PeriodicMatrix, v::Number) = PeriodicMatrix(A.row*v)
+*(v::Number, A::PeriodicMatrix) = A*v
 
 /(A::PeriodicMatrix, v::Number) = PeriodicMatrix(A.row/v)
 
@@ -49,8 +50,10 @@ function +(A::UniformScaling, B::PeriodicMatrix)
     tmp[1] += A.λ
     PeriodicMatrix(tmp)
 end
++(A::PeriodicMatrix, B::UniformScaling) = B + A
 
 -(A::UniformScaling, B::PeriodicMatrix) = A + (-B)
+-(A::PeriodicMatrix, B::UniformScaling) = A + (-B)
 
 transpose(A::PeriodicMatrix) = A
 
