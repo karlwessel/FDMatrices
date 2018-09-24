@@ -28,7 +28,8 @@ export laplaceperiodic, laplacedirichlet, ⊕, KronSum,
     poisson1dtest, poisson1derror,
     poisson2dperiodictest,
     poisson1dperiodictest,
-    diff3dtest
+    diff3dtest,
+    fouriermatrix
 
 
 
