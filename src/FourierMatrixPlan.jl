@@ -93,5 +93,5 @@ end
 \(B::FourierMatrixPlan2d, A::AbstractMatrix) = inv(B)*A
 
 
-lazykron(A::FourierMatrixPlan{T}, B::FourierMatrixPlan{T}) where {T} =
-    fouriermatrix(len(B), len(A), T, A.debug || B.debug)
+lazykron(A::FourierMatrixPlan{T}, B::FourierMatrixPlan{T}, debug=false) where {T} =
+    fouriermatrix(len(B), len(A), T, A.debug || B.debug || debug)
