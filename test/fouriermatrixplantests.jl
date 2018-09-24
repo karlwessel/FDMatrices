@@ -127,4 +127,59 @@ v = rand(6)
 
 @test F*v ≈ Fm*v
 end
+
+
+@testset "FourierMatrixPlan3d tests" begin
+F = fouriermatrix(3,2,4, Float64, true)
+@test size(F) == (24,24)
+Fm = getm(F)
+@test size(Fm) == size(F)
+V = rand(3,2,4)
+v = reshape(V, length(V))
+
+@test F*v ≈ reshape(fft(V), 24)
+@test F*v ≈ Fm*v
+@test getm(transpose(F)) == Fm
+@test getm(inv(F)) ≈ inv(Fm)
+
+
+V2 = rand(24,24)
+
+@test F*V2 ≈ Fm*V2
+@test V2*F ≈ V2*Fm
+@test V2/F ≈ V2/Fm
+
+@test F*transpose(V2) ≈ Fm*transpose(V2)
+@test transpose(V2)*F ≈ transpose(V2) * Fm
+# D = Diagonal(v)
+# @test F*D ≈ Fm*D
+# @test D*F ≈ D*F
+end;
+
+
+@testset "kronecker product of three fourier matrices" begin
+F1 = fouriermatrix(3, Float64, true)
+F2 = fouriermatrix(2, Float64, true)
+F3 = fouriermatrix(4, Float64, true)
+
+F = lazykron(F1, F2)
+Fm = kron(getm(F1), getm(F2))
+
+F = lazykron(F, F3)
+Fm = kron(Fm, getm(F3))
+
+v = rand(24)
+
+@test F*v ≈ Fm*v
+
+Ft = lazykron(F2, F3)
+Fmt = kron(getm(F2), getm(F3))
+
+Ft = lazykron(F1, Ft)
+Fmt = kron(getm(F1), Fmt)
+
+v = rand(24)
+
+@test Ft*v ≈ Fmt*v
+end
 end
