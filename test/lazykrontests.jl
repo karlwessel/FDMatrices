@@ -18,8 +18,8 @@ Km = getm(K)
 
 v = rand(6)
 @test K*v ≈ Km*v
-@test Matrix(adjoint(K)) ≈ adjoint(Km)
-@test Matrix(transpose(K)) ≈ transpose(Km)
+@test getm(adjoint(K)) ≈ adjoint(Km)
+@test getm(transpose(K)) ≈ transpose(Km)
 
 vsp = spzeros(6)
 vsp[2] = 5

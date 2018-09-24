@@ -10,7 +10,7 @@ CirculantMatrix = PeriodicMatrix
 len(A::PeriodicMatrix) = length(A.row)
 
 eigvals(A::PeriodicMatrix) = real(fft(A.row))
-eigvecs(A::PeriodicMatrix) = FourierMatrix(length(A.row))
+eigvecs(A::PeriodicMatrix) = fouriermatrix(A.row)
 eigen(A::PeriodicMatrix) = Eigen(eigvals(A), eigvecs(A))
 
 pinv(A::PeriodicMatrix) = pinv(eigen(A))

@@ -9,7 +9,9 @@ function LazyKron(A::AbstractMatrix{T}, B::AbstractMatrix{S}, debug=false) where
     LazyKron{T,S, promote_type(T, S)}(A, B, debug)
 end
 
-lazykron = LazyKron
+lazykron(A,B, debug=false) = LazyKron(A,B, debug)
+
+
 
 function getindex(K::LazyKron, x::Int,y::Int)
     if debug(K)
@@ -24,11 +26,11 @@ getm(K::LazyKron) = kron(K.A, K.B)
 
 size(K::LazyKron) = size(K.A).*size(K.B)
 
-adjoint(K::LazyKron) = lazykron(adjoint(K.A), adjoint(K.B))
-transpose(K::LazyKron) = lazykron(transpose(K.A), transpose(K.B))
+adjoint(K::LazyKron) = lazykron(adjoint(K.A), adjoint(K.B), K.debug)
+transpose(K::LazyKron) = lazykron(transpose(K.A), transpose(K.B), K.debug)
 tr(K::LazyKron) = tr(K.A)*tr(K.B)
 
-inv(K::LazyKron) = lazykron(inv(K.A), inv(K.B))
+inv(K::LazyKron) = lazykron(inv(K.A), inv(K.B), K.debug)
 
 function *(K::LazyKron, v::AbstractVector)
     # (A⊗B)v = g <=> BVAᵀ = G
@@ -44,14 +46,19 @@ function *(K::LazyKron, v::AbstractSparseVector)
     reshape((K.B*V)*transpose(K.A), size(K.A, 1)*size(K.B, 1))
 end
 
-\(K::LazyKron, A::AbstractMatrix) = inv(K)*A
+\(K::LazyKron, A::AbstractVecOrMat) = inv(K)*A
 
-function *(K::LazyKron, A::AbstractMatrix)
+/(A::AbstractVecOrMat, K::LazyKron) = A*inv(K)
+
+function kronmul(K::LazyKron, A::AbstractMatrix)
     cat([K*A[:,i] for i∈1:size(A,2)]..., dims=2)
 end
+*(K::LazyKron, A::AbstractMatrix) = kronmul(K, A)
 
-function *(K::LazyKron, A::Diagonal)
-    cat([K*A[:,i] for i∈1:size(A,2)]..., dims=2)
-end
+
+*(K::LazyKron, A::Diagonal) = kronmul(K, A)
+
+*(A::AbstractMatrix, K::LazyKron) = transpose(transpose(K)*transpose(A))
+*(A::Diagonal, K::LazyKron) = transpose(transpose(K)*transpose(A))
 
 +(K1::LazyKron, K2::LazyKron) = Matrix(K1)+Matrix(K2)
