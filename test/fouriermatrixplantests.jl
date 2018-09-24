@@ -9,7 +9,7 @@ using FDMatrices
 using FDMatrices: getm, fouriermatrix
 
 @testset "FourierMatrixPlan tests" begin
-F = fouriermatrix(3, Float64, true)
+F = fouriermatrix(3, Float64, false)
 Fm = getm(F)
 v = [1, 2, 3]
 
@@ -30,9 +30,8 @@ V = rand(3,4)
 @test F2*transpose(V) ≈ F2m*transpose(V)
 @test transpose(V)*F ≈ transpose(V) * Fm
 
-# D = Diagonal(v)
-# @test F*D ≈ Fm*D
-# @test D*F ≈ D*F
+D = Diagonal(v)
+@test F*D ≈ Fm*D
 end;
 
 
@@ -58,9 +57,8 @@ V = rand(3,4)
 @test F2*transpose(V) ≈ F2m*transpose(V)
 @test transpose(V)*F ≈ transpose(V) * Fm
 
-# D = Diagonal(v)
-# @test F*D ≈ Fm*D
-# @test D*F ≈ D*F
+D = Diagonal(v)
+@test F*D ≈ Fm*D
 end;
 
 @testset "FourierMatrixPlan2d tests" begin
@@ -85,9 +83,8 @@ V2 = rand(6,6)
 
 @test F*transpose(V2) ≈ Fm*transpose(V2)
 @test transpose(V2)*F ≈ transpose(V2) * Fm
-# D = Diagonal(v)
-# @test F*D ≈ Fm*D
-# @test D*F ≈ D*F
+D = Diagonal(v)
+@test F*D ≈ Fm*D
 end;
 
 
@@ -111,9 +108,8 @@ V2 = rand(6,6)
 @test F*transpose(V2) ≈ Fm*transpose(V2)
 @test transpose(V2)*F ≈ transpose(V2) * Fm
 
-# D = Diagonal(v)
-# @test F*D ≈ Fm*D
-# @test D*F ≈ D*F
+D = Diagonal(v)
+@test F*D ≈ Fm*D
 end;
 
 @testset "kronecker product of two fourier matrices" begin
@@ -151,9 +147,8 @@ V2 = rand(24,24)
 
 @test F*transpose(V2) ≈ Fm*transpose(V2)
 @test transpose(V2)*F ≈ transpose(V2) * Fm
-# D = Diagonal(v)
-# @test F*D ≈ Fm*D
-# @test D*F ≈ D*F
+D = Diagonal(v)
+@test F*D ≈ Fm*D
 end;
 
 
