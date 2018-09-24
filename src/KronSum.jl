@@ -47,7 +47,7 @@ pinv(A::KronSum) = pinv(eigen(A))
 
 \(A::KronSum, B::AbstractVector) = solve(A, B)
 
-function solve(A::KronSum, v::Vector)
+function solve(A::KronSum, v::AbstractVector)
     T = eigvecs(A)
     T⁻¹ = inv(T)
     D⁻¹ = pinv(Diagonal(eigvals(A)))
