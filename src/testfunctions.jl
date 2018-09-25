@@ -98,7 +98,7 @@ function gendiff3dtestdirichlet(x,y,z,t)
 end
 
 function diff3dtestdirichlet(N,M,L, t)
-    [gendiff3dtest(x/N,y/M,z/L,t) for x in 0:N-1, y in 0:M-1, z in 0:L-1]
+    [gendiff3dtestdirichlet(x/N,y/M,z/L,t) for x in 0:N-1, y in 0:M-1, z in 0:L-1]
 end
 diff3dtestdirichlet(N,M,L) = diff3dtestdirichlet(N,M,L, 0)
 diff3dtestdirichlet(N) = diff3dtestdirichlet(N, 0)
