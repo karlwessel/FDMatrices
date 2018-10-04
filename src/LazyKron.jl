@@ -51,7 +51,11 @@ end
 /(A::AbstractVecOrMat, K::LazyKron) = A*inv(K)
 
 function kronmul(K::LazyKron, A::AbstractMatrix)
-    cat([K*A[:,i] for i∈1:size(A,2)]..., dims=2)
+    B = Matrix{eltype(A)}(undef, size(A))
+    for i in 1:size(A,2)
+        B[:,i] = K*A[:,i]
+    end
+    B
 end
 *(K::LazyKron, A::AbstractMatrix) = kronmul(K, A)
 
