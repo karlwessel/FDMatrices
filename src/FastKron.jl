@@ -66,17 +66,17 @@ end
 
 /(A::AbstractVecOrMat, K::FastKron) = A*inv(K)
 
-function kronmul(K::FastKron, A::AbstractMatrix{T}) where {T}
-    B = Matrix{T}(undef, size(A))
+function kronmul!(B::AbstractMatrix, K::FastKron, A::AbstractMatrix)
     @views for i in 1:size(A,2)
         mul!(B[:,i], K, A[:,i])
     end
     B
 end
-*(K::FastKron, A::AbstractMatrix) = kronmul(K, A)
+mul!(B::AbstractMatrix, K::FastKron, A::AbstractMatrix) = kronmul!(B,K,A)
+*(K::FastKron, A::AbstractMatrix) = kronmul!(similar(A), K, A)
 
 
-*(K::FastKron, A::Diagonal) = kronmul(K, A)
+*(K::FastKron, A::Diagonal) = kronmul!(Matrix(A), K, A)
 
 *(A::AbstractMatrix, K::FastKron) = transpose(transpose(K)*transpose(A))
 *(A::Diagonal, K::FastKron) = transpose(transpose(K)*transpose(A))
