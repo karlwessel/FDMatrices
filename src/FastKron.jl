@@ -67,8 +67,12 @@ end
 /(A::AbstractVecOrMat, K::FastKron) = A*inv(K)
 
 function kronmul!(B::AbstractMatrix, K::FastKron, A::AbstractMatrix)
+    Aᵀ = transpose(K.A)
+    V = reshape(A, (size(K.B, 2), size(K.A, 2), size(A,2)))
+    V2 = reshape(B, (size(K.B, 1), size(K.A, 1), size(A,2)))
     @views for i in 1:size(A,2)
-        mul!(B[:,i], K, A[:,i])
+        mul!(V2[:,:,i],K.B*V[:,:,i],Aᵀ)
+        #mul!(B[:,i], K, A[:,i])
     end
     B
 end
