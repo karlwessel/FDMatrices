@@ -68,8 +68,8 @@ end
 
 function kronmul(K::FastKron, A::AbstractMatrix{T}) where {T}
     B = Matrix{T}(undef, size(A))
-    for i in 1:size(A,2)
-        B[:,i] = K*A[:,i]
+    @views for i in 1:size(A,2)
+        mul!(B[:,i], K, A[:,i])
     end
     B
 end
