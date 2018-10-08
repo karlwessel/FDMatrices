@@ -50,8 +50,8 @@ end
 
 /(A::AbstractVecOrMat, K::FastKron) = A*inv(K)
 
-function kronmul(K::FastKron, A::AbstractMatrix)
-    B = Matrix{eltype(A)}(undef, size(A))
+function kronmul(K::FastKron, A::AbstractMatrix{T}) where {T}
+    B = Matrix{T}(undef, size(A))
     for i in 1:size(A,2)
         B[:,i] = K*A[:,i]
     end
