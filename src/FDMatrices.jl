@@ -8,7 +8,7 @@ import Base:*, /, \, +, -
 import Base:transpose, inv, convert, size, getindex, promote_rule, isapprox,
     adjoint, setindex!, reverse
 
-import LinearAlgebra: eigen, pinv, eigvals, eigvecs, Matrix, tr
+import LinearAlgebra: eigen, pinv, eigvals, eigvecs, Matrix, tr, mul!
 
 export laplaceperiodic, laplacedirichlet, ⊕, KronSum,
     FourierMatrix, InvFourierMatrix, ⊗, lazykron,

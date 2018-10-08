@@ -32,14 +32,30 @@ tr(K::FastKron) = tr(K.A)*tr(K.B)
 
 inv(K::FastKron) = fastkron(inv(K.A), inv(K.B), K.debug)
 
-function *(K::FastKron, v::AbstractVector)
+# function *(K::FastKron, v::AbstractVector)
+#     # (A⊗B)v = g <=> BVAᵀ = G
+#     # with v = flatten(V), g = flatten(G)
+#     V = reshape(v, (size(K.B, 2), size(K.A, 2)))
+#     Aᵀ = transpose(K.A)
+#     B = K.B
+#     reshape(B*V*Aᵀ, size(K.A, 1)*size(K.B, 1))
+# end
+
+*(K::FastKron, v::AbstractVector) =
+    mul!(similar(v, size(K.B, 1)*size(K.A, 1)), K, v)
+
+function mul!(v2::AbstractVector, K::FastKron, v::AbstractVector)
     # (A⊗B)v = g <=> BVAᵀ = G
     # with v = flatten(V), g = flatten(G)
     V = reshape(v, (size(K.B, 2), size(K.A, 2)))
+    V2 = reshape(v2, (size(K.B, 1), size(K.A, 1)))
     Aᵀ = transpose(K.A)
     B = K.B
-    reshape(B*V*Aᵀ, size(K.A, 1)*size(K.B, 1))
+    mul!(V2,B*V,Aᵀ)
+    #mul!(V2,B, V2)
+    reshape(V2, size(K.A, 1)*size(K.B, 1))
 end
+
 
 function *(K::FastKron, v::AbstractSparseVector)
     V = reshape(v, (size(K.B, 2), size(K.A, 2)))
