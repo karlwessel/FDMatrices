@@ -1,6 +1,8 @@
+include("fastkrontests.jl")
 include("fouriermatrixplantests.jl")
 
 include("lazykrontests.jl")
+
 
 
 include("periodicmatrixtests.jl")

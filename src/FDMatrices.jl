@@ -29,12 +29,14 @@ export laplaceperiodic, laplacedirichlet, ⊕, KronSum,
     poisson2dperiodictest,
     poisson1dperiodictest,
     diff3dtest, diff3dtestdirichlet,
-    fouriermatrix
+    fouriermatrix,
+    fastkron
 
 
 
 include("utils.jl")
 include("LazyKron.jl")
+include("FastKron.jl")
 include("FourierMatrix.jl")
 include("FourierMatrixPlan.jl")
 include("DSTIMatrix.jl")
