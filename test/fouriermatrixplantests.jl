@@ -113,8 +113,8 @@ D = Diagonal(v)
 end;
 
 @testset "kronecker product of two fourier matrices" begin
-F1 = fouriermatrix(3, Float64, true)
-F2 = fouriermatrix(2, Float64, true)
+F1 = fouriermatrix(3, Float64, false)
+F2 = fouriermatrix(2, Float64, false)
 
 F = lazykron(F1, F2)
 Fm = kron(getm(F1), getm(F2))
@@ -122,6 +122,8 @@ Fm = kron(getm(F1), getm(F2))
 v = rand(6)
 
 @test F*v ≈ Fm*v
+F2 = fastkron(F1, F2)
+@test F2*v ≈ Fm*v
 end
 
 
@@ -166,6 +168,9 @@ Fm = kron(Fm, getm(F3))
 v = rand(24)
 
 @test F*v ≈ Fm*v
+Ff = fastkron(F1, F2)
+Ff = fastkron(Ff, F3)
+@test Ff*v ≈ Fm*v
 
 Ft = lazykron(F2, F3)
 Fmt = kron(getm(F2), getm(F3))
@@ -176,5 +181,9 @@ Fmt = kron(getm(F1), Fmt)
 v = rand(24)
 
 @test Ft*v ≈ Fmt*v
+
+Ftf = fastkron(F2, F3)
+Ftf = fastkron(F1, Ftf)
+@test Ftf*v ≈ Fmt*v
 end
 end

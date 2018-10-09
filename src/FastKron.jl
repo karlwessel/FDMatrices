@@ -12,7 +12,6 @@ end
 fastkron(A,B, debug=false) = FastKron(A,B, debug)
 
 
-
 function getindex(K::FastKron, x::Int,y::Int)
     if debug(K)
         throw(ErrorException("unexp convert"))
@@ -42,7 +41,7 @@ inv(K::FastKron) = fastkron(inv(K.A), inv(K.B), K.debug)
 # end
 
 *(K::FastKron, v::AbstractVector) =
-    mul!(similar(v, size(K.B, 1)*size(K.A, 1)), K, v)
+    mul!(similar(v, promote_type(eltype(K.A),eltype(K.B), eltype(v)), size(K.B, 1)*size(K.A, 1)), K, v)
 
 function mul!(v2::AbstractVector, K::FastKron, v::AbstractVector)
     # (A⊗B)v = g <=> BVAᵀ = G
@@ -77,10 +76,10 @@ function kronmul!(B::AbstractMatrix, K::FastKron, A::AbstractMatrix)
     B
 end
 mul!(B::AbstractMatrix, K::FastKron, A::AbstractMatrix) = kronmul!(B,K,A)
-*(K::FastKron, A::AbstractMatrix) = kronmul!(similar(A), K, A)
+*(K::FastKron, A::AbstractMatrix) = kronmul!(similar(A, promote_type(eltype.([K.A, K.B, A])...)), K, A)
 
 
-*(K::FastKron, A::Diagonal) = kronmul!(Matrix(A), K, A)
+*(K::FastKron, A::Diagonal) = kronmul!(Matrix{promote_type(eltype.([K.A, K.B, A])...)}(A), K, A)
 
 *(A::AbstractMatrix, K::FastKron) = transpose(transpose(K)*transpose(A))
 *(A::Diagonal, K::FastKron) = transpose(transpose(K)*transpose(A))

@@ -147,3 +147,13 @@ lazykron(A::FourierMatrixPlan2d{T}, B::FourierMatrixPlan{T}, debug=false) where 
 
 lazykron(A::FourierMatrixPlan{T}, B::FourierMatrixPlan2d{T}, debug=false) where {T} =
     fouriermatrix(size(B.plan)..., len(A), T, A.debug || B.debug || debug)
+
+fastkron(A::FourierMatrixPlan{T}, B::FourierMatrixPlan{T}, debug=false) where {T} =
+    lazykron(A,B,debug)
+
+
+fastkron(A::FourierMatrixPlan2d{T}, B::FourierMatrixPlan{T}, debug=false) where {T} =
+    lazykron(A,B,debug)
+
+fastkron(A::FourierMatrixPlan{T}, B::FourierMatrixPlan2d{T}, debug=false) where {T} =
+    lazykron(A,B,debug)

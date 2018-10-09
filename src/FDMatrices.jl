@@ -46,7 +46,7 @@ include("DirichletMatrix.jl")
 include("PureDirichletMatrix.jl")
 include("testfunctions.jl")
 
-⊗ = lazykron
+⊗ = fastkron
 ⊕ = kronsum
 
 
