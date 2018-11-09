@@ -6,6 +6,12 @@ struct FourierMatrixPlan{T} <: FastMatrix{T}
     debug::Bool
 end
 
+fouriermatrix(N::Int, ::Type{T}, debug=false) where {T<:Real} =
+    FourierMatrixPlan(plan_rfft(Array{T}(undef, N)), debug)
+
+fouriermatrix(v::AbstractArray{T,1}, debug=false) where {T<:Real} =
+    FourierMatrixPlan(plan_rfft(v), debug)
+
 fouriermatrix(N::Int, ::Type{T}, debug=false) where {T} =
     FourierMatrixPlan(plan_fft(Array{T}(undef, N)), debug)
 

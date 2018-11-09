@@ -62,6 +62,7 @@ function *(K::FastKron, v::AbstractSparseVector)
 end
 
 \(K::FastKron, A::AbstractVecOrMat) = inv(K)*A
+ldiv!(Y::AbstractVecOrMat, K::FastKron, A::AbstractVecOrMat) = mul!(Y, inv(K), A)
 
 /(A::AbstractVecOrMat, K::FastKron) = A*inv(K)
 
